@@ -1,0 +1,5 @@
+[project]
+id = "base-agent-service"
+profile = "standard"
+budget = "$20/day"
+verify = "npm test"

@@ -1,0 +1,175 @@
+import { defineChain } from "viem";
+import { type Abi } from "viem";
+
+// ---- Base Sepolia chain definition ----
+export const baseSepolia = defineChain({
+  id: 84532,
+  name: "Base Sepolia",
+  nativeCurrency: { name: "Ether", symbol: "ETH", decimals: 18 },
+  rpcUrls: {
+    default: { http: [process.env.RPC_URL || "https://sepolia.base.org"] },
+  },
+  blockExplorers: {
+    default: {
+      name: "BaseScan",
+      url: "https://sepolia.basescan.org",
+    },
+  },
+  testnet: true,
+});
+
+// ---- Contract ABI (matches AgentServiceRegistry.sol) ----
+export const registryAbi = [
+  // Write
+  {
+    type: "function",
+    name: "registerService",
+    inputs: [
+      { name: "name", type: "string" },
+      { name: "description", type: "string" },
+      { name: "priceWei", type: "uint256" },
+      { name: "endpoint", type: "string" },
+    ],
+    outputs: [{ name: "serviceId", type: "uint256" }],
+    stateMutability: "nonpayable",
+  },
+  {
+    type: "function",
+    name: "updateService",
+    inputs: [
+      { name: "serviceId", type: "uint256" },
+      { name: "newPrice", type: "uint256" },
+      { name: "newEndpoint", type: "string" },
+    ],
+    outputs: [],
+    stateMutability: "nonpayable",
+  },
+  {
+    type: "function",
+    name: "deactivateService",
+    inputs: [{ name: "serviceId", type: "uint256" }],
+    outputs: [],
+    stateMutability: "nonpayable",
+  },
+  // Read
+  {
+    type: "function",
+    name: "getService",
+    inputs: [{ name: "serviceId", type: "uint256" }],
+    outputs: [
+      {
+        name: "",
+        type: "tuple",
+        components: [
+          { name: "id", type: "uint256" },
+          { name: "agent", type: "address" },
+          { name: "name", type: "string" },
+          { name: "description", type: "string" },
+          { name: "priceWei", type: "uint256" },
+          { name: "endpoint", type: "string" },
+          { name: "active", type: "bool" },
+          { name: "timestamp", type: "uint256" },
+        ],
+      },
+    ],
+    stateMutability: "view",
+  },
+  {
+    type: "function",
+    name: "getAgentServices",
+    inputs: [{ name: "agent", type: "address" }],
+    outputs: [{ name: "", type: "uint256[]" }],
+    stateMutability: "view",
+  },
+  {
+    type: "function",
+    name: "discoverServices",
+    inputs: [
+      { name: "offset", type: "uint256" },
+      { name: "limit", type: "uint256" },
+    ],
+    outputs: [
+      {
+        name: "result",
+        type: "tuple[]",
+        components: [
+          { name: "id", type: "uint256" },
+          { name: "agent", type: "address" },
+          { name: "name", type: "string" },
+          { name: "description", type: "string" },
+          { name: "priceWei", type: "uint256" },
+          { name: "endpoint", type: "string" },
+          { name: "active", type: "bool" },
+          { name: "timestamp", type: "uint256" },
+        ],
+      },
+    ],
+    stateMutability: "view",
+  },
+  {
+    type: "function",
+    name: "activeServiceCount",
+    inputs: [],
+    outputs: [{ name: "", type: "uint256" }],
+    stateMutability: "view",
+  },
+  {
+    type: "function",
+    name: "nextServiceId",
+    inputs: [],
+    outputs: [{ name: "", type: "uint256" }],
+    stateMutability: "view",
+  },
+  // Events
+  {
+    type: "event",
+    name: "ServiceRegistered",
+    inputs: [
+      { name: "serviceId", type: "uint256", indexed: true },
+      { name: "agent", type: "address", indexed: true },
+      { name: "name", type: "string", indexed: false },
+      { name: "priceWei", type: "uint256", indexed: false },
+      { name: "endpoint", type: "string", indexed: false },
+    ],
+  },
+  {
+    type: "event",
+    name: "ServiceUpdated",
+    inputs: [
+      { name: "serviceId", type: "uint256", indexed: true },
+      { name: "newPrice", type: "uint256", indexed: false },
+      { name: "newEndpoint", type: "string", indexed: false },
+    ],
+  },
+  {
+    type: "event",
+    name: "ServiceDeactivated",
+    inputs: [{ name: "serviceId", type: "uint256", indexed: true }],
+  },
+] as const satisfies Abi;
+
+// ---- Bytecode placeholder — replace with compiled output ----
+// To generate: solc --bin contracts/AgentServiceRegistry.sol
+// This is the compiled bytecode from solc 0.8.24 for the contract above.
+// For the hackathon demo, we embed it directly so `npm run deploy` works standalone.
+export const registryBytecode =
+  "0x" as `0x${string}`;
+
+// ---- Helpers ----
+export function getRegistryAddress(): `0x${string}` {
+  const addr = process.env.REGISTRY_ADDRESS;
+  if (!addr) {
+    throw new Error(
+      "REGISTRY_ADDRESS not set. Deploy the contract first: npm run deploy"
+    );
+  }
+  return addr as `0x${string}`;
+}
+
+export function getPrivateKey(): `0x${string}` {
+  const key = process.env.PRIVATE_KEY;
+  if (!key) {
+    throw new Error("PRIVATE_KEY not set in environment");
+  }
+  return (key.startsWith("0x") ? key : `0x${key}`) as `0x${string}`;
+}
