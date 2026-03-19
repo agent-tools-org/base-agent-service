@@ -135,12 +135,22 @@ async function main() {
   console.log(`✅ Service registered in block ${registerReceipt.blockNumber}`);
 
   // ---- Read back service to confirm ----
+  interface ServiceInfo {
+    id: bigint;
+    agent: `0x${string}`;
+    name: string;
+    description: string;
+    priceWei: bigint;
+    endpoint: string;
+    active: boolean;
+    timestamp: bigint;
+  }
   const service = await publicClient.readContract({
     address: contractAddress,
     abi,
     functionName: "getService",
     args: [0n],
-  }) as any;
+  }) as ServiceInfo;
 
   console.log(`   Service ID  : ${service.id}`);
   console.log(`   Name        : ${service.name}`);

@@ -16,8 +16,10 @@ describe("discoverServices ABI", () => {
     expect(discoverFn.outputs).toHaveLength(1);
     const output = discoverFn.outputs![0];
     expect(output.type).toBe("tuple[]");
-    const components = (output as any).components;
-    const fieldNames = components.map((c: any) => c.name);
+    // AbiParameter includes optional `components` for tuple types
+    const components = output.components;
+    expect(components).toBeDefined();
+    const fieldNames = components!.map((c) => c.name);
     expect(fieldNames).toEqual([
       "id",
       "agent",

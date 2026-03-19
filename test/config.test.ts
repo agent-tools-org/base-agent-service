@@ -57,9 +57,9 @@ describe("registryAbi", () => {
   it("contains getService view function", () => {
     const fn = registryAbi.find(
       (e) => e.type === "function" && e.name === "getService"
-    );
+    ) as Extract<(typeof registryAbi)[number], { type: "function"; name: "getService" }>;
     expect(fn).toBeDefined();
-    expect((fn as any).stateMutability).toBe("view");
+    expect(fn.stateMutability).toBe("view");
   });
 
   it("contains discoverServices view function", () => {

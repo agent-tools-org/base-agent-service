@@ -17,11 +17,7 @@ describe("ServiceRegistered event", () => {
   });
 
   it("produces a valid event signature hash", () => {
-    const hash = toEventHash({
-      type: "event",
-      name: "ServiceRegistered",
-      inputs: event.inputs as any,
-    });
+    const hash = toEventHash(event);
     expect(hash).toMatch(/^0x[0-9a-f]{64}$/);
   });
 });

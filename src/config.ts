@@ -19,8 +19,19 @@ export const baseSepolia = defineChain({
 });
 
 // ---- Contract ABI (matches AgentServiceRegistry.sol) ----
+//
+// Access control:
+//   registerService    — permissionless, callable by any address (msg.sender becomes the service agent/owner)
+//   updateService      — restricted to the service owner (onlyServiceOwner modifier; reverts with "Not service owner")
+//   deactivateService  — restricted to the service owner (onlyServiceOwner modifier; reverts with "Not service owner")
+//   getService         — view, callable by anyone
+//   getAgentServices   — view, callable by anyone
+//   discoverServices   — view, callable by anyone
+//   activeServiceCount — view, callable by anyone
+//   nextServiceId      — view, callable by anyone
+//
 export const registryAbi = [
-  // Write
+  // Write — permissionless: any address can register a new service
   {
     type: "function",
     name: "registerService",
@@ -33,6 +44,7 @@ export const registryAbi = [
     outputs: [{ name: "serviceId", type: "uint256" }],
     stateMutability: "nonpayable",
   },
+  // Write — restricted: only the service owner (original registrant) can update
   {
     type: "function",
     name: "updateService",
@@ -44,6 +56,7 @@ export const registryAbi = [
     outputs: [],
     stateMutability: "nonpayable",
   },
+  // Write — restricted: only the service owner (original registrant) can deactivate
   {
     type: "function",
     name: "deactivateService",
@@ -51,7 +64,7 @@ export const registryAbi = [
     outputs: [],
     stateMutability: "nonpayable",
   },
-  // Read
+  // Read — view, callable by anyone
   {
     type: "function",
     name: "getService",

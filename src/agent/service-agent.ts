@@ -28,6 +28,8 @@ import {
   type AnalysisRequest,
 } from "./analysis.js";
 
+import { validateServiceRegistration } from "../validation.js";
+
 // ---- Main agent flow ----
 
 async function main() {
@@ -54,6 +56,14 @@ async function main() {
     "Statistical analysis of numeric datasets — returns count, sum, mean, min, max, and stddev.";
   const priceWei = parseEther("0.0001"); // 0.0001 ETH per invocation
   const endpoint = `https://agent.example.com/api/analyze`;
+
+  // Validate inputs before sending the on-chain transaction
+  validateServiceRegistration({
+    name: serviceName,
+    description: serviceDesc,
+    priceWei,
+    endpoint,
+  });
 
   console.log(`Registering service "${serviceName}" …`);
 
