@@ -35,6 +35,10 @@ async function main() {
   console.log("🔍 Agent Service Discovery Client");
   console.log(`   Registry: ${registryAddress}\n`);
 
+  // Access control note:
+  // The registry's discovery methods here are `view` functions, so they are
+  // callable by any address.
+
   // 1. Check total active services
   const activeCount = (await publicClient.readContract({
     address: registryAddress,

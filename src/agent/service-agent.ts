@@ -57,6 +57,10 @@ async function main() {
   const priceWei = parseEther("0.0001"); // 0.0001 ETH per invocation
   const endpoint = `https://agent.example.com/api/analyze`;
 
+  // Access control note:
+  // - `registerService` is permissionless in the registry, so anyone can call it.
+  // - The registry records `msg.sender` as the service owner/agent for later
+  //   `updateService` and `deactivateService` calls.
   // Validate inputs before sending the on-chain transaction
   validateServiceRegistration({
     name: serviceName,
