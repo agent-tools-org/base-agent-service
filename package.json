@@ -10,6 +10,7 @@
     "agent": "npx tsx src/agent/service-agent.ts",
     "client": "npx tsx src/client.ts",
     "demo": "npx tsx scripts/demo.ts",
+    "gasless-deploy": "npx tsx scripts/gasless-deploy.ts",
     "typecheck": "tsc --noEmit",
     "test": "vitest run"
   },
