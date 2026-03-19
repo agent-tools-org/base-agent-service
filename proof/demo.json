@@ -1,0 +1,22 @@
+{
+  "timestamp": "2026-03-19T01:02:10.471Z",
+  "chain": {
+    "id": 84532,
+    "name": "Base Sepolia"
+  },
+  "latestBlock": {
+    "number": "39056920",
+    "hash": "0x41019cc831da6c497f646222accf2d37101d247fee79789ad2d6164348c2a4b9",
+    "timestamp": "2026-03-19T01:02:08.000Z"
+  },
+  "wallet": {
+    "address": "0x3614A5bD7f206d4f9e89c6aEdC4d774e6d534D78",
+    "balanceETH": "0",
+    "balanceWei": "0"
+  },
+  "contract": {
+    "bytecodeChars": 11216,
+    "ready": true
+  },
+  "deploymentReady": false
+}
