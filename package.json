@@ -4,10 +4,12 @@
   "description": "Agent Service Registry on Base — discover and invoke agent services on-chain",
   "type": "module",
   "scripts": {
+    "compile": "npx tsx scripts/compile.ts",
     "build": "tsc",
     "deploy": "npx tsx src/deploy.ts",
     "agent": "npx tsx src/agent/service-agent.ts",
     "client": "npx tsx src/client.ts",
+    "demo": "npx tsx scripts/demo.ts",
     "typecheck": "tsc --noEmit",
     "test": "vitest run"
   },
@@ -16,6 +18,7 @@
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
+    "solc": "^0.8.28",
     "tsx": "^4.19.0",
     "typescript": "^5.6.0",
     "vitest": "^4.1.0"
